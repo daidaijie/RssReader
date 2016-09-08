@@ -1,6 +1,7 @@
 package com.example.daidaijie.rssreader.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.daidaijie.rssreader.R;
+import com.example.daidaijie.rssreader.RssDetailActivity;
 
 import org.mcsoxford.rss.RSSItem;
 
@@ -50,8 +52,8 @@ public class RssAdapter extends RecyclerView.Adapter<RssAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        RSSItem rssItem = mRSSItems.get(position);
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        final RSSItem rssItem = mRSSItems.get(position);
         holder.mRssTitleTextView.setText(rssItem.getTitle().trim());
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd  HH:mm:ss");
@@ -61,7 +63,8 @@ public class RssAdapter extends RecyclerView.Adapter<RssAdapter.ViewHolder> {
         holder.mRssCardItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = RssDetailActivity.getIntent(mActivity, position);
+                mActivity.startActivity(intent);
             }
         });
     }

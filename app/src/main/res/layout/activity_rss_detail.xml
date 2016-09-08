@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/defaultLightBackground"
     android:orientation="vertical"
     tools:context="com.example.daidaijie.rssreader.RssDetailActivity">
 
@@ -20,4 +21,59 @@
         app:titleTextColor="@android:color/white">
     </android.support.v7.widget.Toolbar>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:gravity="center"
+                android:text="媒体:四川内江官场巨震或涉资阳落马女书记李佳"
+                android:textColor="@color/defaultTextColor"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/timeTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Thu, 8 Sep 2016 02:27:39 GMT"
+                android:textColor="@color/defaultTextColor"
+                android:textSize="14sp"/>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                app:cardBackgroundColor="@color/material_white"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="1dp">
+
+                <TextView
+                    android:id="@+id/descTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="长征路上奔小康”网络媒体“走转改”大型主题采访活动湖南站行程圆满结束。几天的采访中，来自中央重点新闻网站、地方新闻网站、商业网站、客户端及湖南地方媒体共5"
+                    android:textSize="16sp"/>
+            </android.support.v7.widget.CardView>
+
+
+            <WebView
+                android:id="@+id/linkWebView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp">
+            </WebView>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

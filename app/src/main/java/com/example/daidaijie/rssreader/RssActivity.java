@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.example.daidaijie.rssreader.adapter.RssAdapter;
+import com.example.daidaijie.rssreader.model.RssModel;
 
 import org.mcsoxford.rss.RSSFeed;
 import org.mcsoxford.rss.RSSItem;
@@ -23,7 +24,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-public class RssActivity extends AppCompatActivity {
+public class RssActivity extends BaseActivity {
 
     public static final String TAG = "RssActivity";
 
@@ -42,8 +43,6 @@ public class RssActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rss);
-        ButterKnife.bind(this);
 
         mRssAdapter = new RssAdapter(this, null);
         mRssItemRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -63,6 +62,11 @@ public class RssActivity extends AppCompatActivity {
                 getRss();
             }
         });
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_rss;
     }
 
     private void getRss() {
@@ -97,6 +101,7 @@ public class RssActivity extends AppCompatActivity {
                         mRSSFeed = rssFeed;
                         if (mRSSFeed != null) {
                             mRssAdapter.setRSSItems(mRSSFeed.getItems());
+                            RssModel.getInstance().mRSSItems = mRSSFeed.getItems();
                             mRssAdapter.notifyDataSetChanged();
                         }
                     }
