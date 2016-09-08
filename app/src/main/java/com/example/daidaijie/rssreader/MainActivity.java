@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.daidaijie.rssreader.bean.Login;
 import com.example.daidaijie.rssreader.bean.Register;
@@ -28,6 +31,10 @@ public class MainActivity extends BaseActivity {
     MaterialLoginView mLogin;
 
     public static final String TAG = "MainActivity";
+    @BindView(R.id.serverEditText)
+    EditText mServerEditText;
+    @BindView(R.id.setButton)
+    Button mSetButton;
 
     private AlertDialog mLoadingDialog;
 
@@ -38,6 +45,13 @@ public class MainActivity extends BaseActivity {
 
         mLoadingDialog = LoadingDialogBuiler.getLoadingDialog(this, getResources().getColor(R.color.colorAccent));
 
+        mServerEditText.setText(UserLogin.getInstance().getBaseUrl());
+        mSetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserLogin.getInstance().setBaseUrl(mServerEditText.getText().toString().trim());
+            }
+        });
 
         mLogin.setListener(new MaterialLoginViewListener() {
             @Override

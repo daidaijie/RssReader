@@ -10,7 +10,7 @@
 
 
     <android.support.v7.widget.Toolbar
-        app:title="新浪要闻"
+        app:title="新闻列表"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
