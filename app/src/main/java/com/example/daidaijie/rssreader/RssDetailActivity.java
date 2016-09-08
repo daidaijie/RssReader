@@ -13,6 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import com.example.daidaijie.rssreader.bean.SimpleRssItem;
 import com.example.daidaijie.rssreader.model.MFavModel;
 import com.example.daidaijie.rssreader.model.RssModel;
 import com.example.daidaijie.rssreader.util.SnackbarUtil;
@@ -99,7 +100,7 @@ public class RssDetailActivity extends BaseActivity {
 
         int id = item.getItemId();
         if (id == R.id.action_fav) {
-            MFavModel.getInstance().getRSSItems().add(mRSSItem);
+            MFavModel.getInstance().getRSSItems().add(0, new SimpleRssItem(mRSSItem));
             MFavModel.getInstance().save();
             SnackbarUtil.ShortSnackbar(mTitleTextView, "收藏成功", SnackbarUtil.Confirm).show();
         }

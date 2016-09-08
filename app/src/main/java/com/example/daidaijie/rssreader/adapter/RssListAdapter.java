@@ -52,6 +52,12 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         RssSource rssSource = mRssSources.get(position);
         holder.mRssTitleTextView.setText(rssSource.getType_name());
+
+        if (rssSource.getIs_order() == 1) {
+            holder.mRssButton.setText("取消订阅");
+        }else{
+            holder.mRssButton.setText("订阅");
+        }
     }
 
     @Override

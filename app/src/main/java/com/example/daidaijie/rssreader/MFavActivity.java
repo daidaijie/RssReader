@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import com.example.daidaijie.rssreader.adapter.FavRssAdapter;
 import com.example.daidaijie.rssreader.adapter.RssAdapter;
 import com.example.daidaijie.rssreader.bean.RssSource;
+import com.example.daidaijie.rssreader.bean.SimpleRssItem;
 import com.example.daidaijie.rssreader.model.MFavModel;
 
 import org.mcsoxford.rss.RSSFeed;
@@ -29,7 +30,7 @@ public class MFavActivity extends BaseActivity {
 
     FavRssAdapter mFavRssAdapter;
 
-    List<RSSItem> mRSSItems;
+    List<SimpleRssItem> mRSSItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +50,10 @@ public class MFavActivity extends BaseActivity {
                         .setItems(items, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                mRSSItems.remove(which);
+                                MFavModel.getInstance().getRSSItems().remove(which);
+                                MFavModel.getInstance().save();
                                 mFavRssAdapter.setRSSItems(mRSSItems);
                                 mFavRssAdapter.notifyDataSetChanged();
-                                MFavModel.getInstance().save();
                                 dialog.dismiss();
                             }
                         })

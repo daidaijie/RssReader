@@ -69,7 +69,7 @@ public class RssListActivity extends BaseActivity {
 
     private void getRssList() {
         RssItemService rssItemService = UserLogin.getInstance().mRetrofit.create(RssItemService.class);
-        rssItemService.getRssSource(UserModel.getInstance().getUsername(),"false")
+        rssItemService.getRssSource(UserModel.getInstance().getUsername(), "true")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<HttpResult<List<RssSource>>>() {
