@@ -28,6 +28,8 @@
         </activity>
         <activity android:name=".MFavActivity">
         </activity>
+        <activity android:name=".MyRssListActivity">
+        </activity>
     </application>
 
 </manifest>

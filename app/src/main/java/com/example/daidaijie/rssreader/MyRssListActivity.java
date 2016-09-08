@@ -1,19 +1,23 @@
 package com.example.daidaijie.rssreader;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
-import com.example.daidaijie.rssreader.adapter.RssAdapter;
+import com.example.daidaijie.rssreader.adapter.MyRssListAdapter;
 import com.example.daidaijie.rssreader.adapter.RssListAdapter;
 import com.example.daidaijie.rssreader.bean.HttpResult;
 import com.example.daidaijie.rssreader.bean.RssSource;
+import com.example.daidaijie.rssreader.model.MFavModel;
 import com.example.daidaijie.rssreader.model.UserLogin;
 import com.example.daidaijie.rssreader.model.UserModel;
-import com.example.daidaijie.rssreader.service.RegisterService;
 import com.example.daidaijie.rssreader.service.RssItemService;
 import com.example.daidaijie.rssreader.util.SnackbarUtil;
 
@@ -21,12 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class RssListActivity extends BaseActivity {
+public class MyRssListActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -35,21 +38,23 @@ public class RssListActivity extends BaseActivity {
     @BindView(R.id.rssRefreshLayout)
     SwipeRefreshLayout mRssRefreshLayout;
 
-    RssListAdapter mRssListAdapter;
+    private MyRssListAdapter mMyRssListAdapter;
 
     private List<RssSource> mRssSources;
 
-    private List<RssSource> mHasRssSources;
+    public static final String TAG = "MyRssListActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setSupportActionBar(mToolbar);
+
         mRssSources = new ArrayList<>();
 
-        mRssListAdapter = new RssListAdapter(this, mRssSources);
+        mMyRssListAdapter = new MyRssListAdapter(this, mRssSources);
         mRssItemRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRssItemRecyclerView.setAdapter(mRssListAdapter);
+        mRssItemRecyclerView.setAdapter(mMyRssListAdapter);
 
         mRssRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -69,14 +74,14 @@ public class RssListActivity extends BaseActivity {
 
     private void getRssList() {
         RssItemService rssItemService = UserLogin.getInstance().mRetrofit.create(RssItemService.class);
-        rssItemService.getRssSource(UserModel.getInstance().getUsername(),"false")
+        rssItemService.getRssSource(UserModel.getInstance().getUsername(), "false")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<HttpResult<List<RssSource>>>() {
                     @Override
                     public void onCompleted() {
-                        mRssListAdapter.setRssSources(mRssSources);
-                        mRssListAdapter.notifyDataSetChanged();
+                        mMyRssListAdapter.setRssSources(mRssSources);
+                        mMyRssListAdapter.notifyDataSetChanged();
                         mRssRefreshLayout.setRefreshing(false);
                     }
 
@@ -90,6 +95,8 @@ public class RssListActivity extends BaseActivity {
 
                     @Override
                     public void onNext(HttpResult<List<RssSource>> listHttpResult) {
+                        Log.e(TAG, "onNext: " + listHttpResult.getData().size());
+                        Log.e(TAG, "onNext: " + listHttpResult.getCode());
                         if (listHttpResult.getCode() == 200) {
                             mRssSources = listHttpResult.getData();
                         } else {
@@ -100,11 +107,32 @@ public class RssListActivity extends BaseActivity {
                     }
                 });
 
-
     }
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_rss_list;
+        return R.layout.activity_my_rss_list;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.ment_my_rss, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if (id == R.id.action_to_fav) {
+            Intent intent = new Intent(this, MFavActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.action_manager) {
+            Intent intent = new Intent(this, RssListActivity.class);
+            startActivityForResult(intent, 200);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

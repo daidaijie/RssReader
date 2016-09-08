@@ -14,6 +14,7 @@ public class RssSource {
     private int type_id;
     private String type_name;
     private String url;
+    private int is_order;
 
     public int getType_id() {
         return type_id;
@@ -37,5 +38,13 @@ public class RssSource {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public int getIs_order() {
+        return is_order;
+    }
+
+    public void setIs_order(int is_order) {
+        this.is_order = is_order;
     }
 }

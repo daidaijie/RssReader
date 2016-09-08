@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.daidaijie.rssreader.RssActivity">
 
 
     <android.support.v7.widget.Toolbar
+        app:title="我的订阅"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,17 +18,21 @@
         android:clipToPadding="true"
         android:fitsSystemWindows="true"
         android:gravity="center_vertical"
-        app:title="收藏列表"
         app:titleTextColor="@android:color/white">
     </android.support.v7.widget.Toolbar>
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rssItemRecyclerView"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/rssRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rssItemRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
 
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>
 

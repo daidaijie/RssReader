@@ -1,7 +1,6 @@
 package com.example.daidaijie.rssreader.service;
 
 import com.example.daidaijie.rssreader.bean.HttpResult;
-import com.example.daidaijie.rssreader.bean.Register;
 import com.example.daidaijie.rssreader.bean.RssSource;
 
 import java.util.List;
@@ -28,6 +27,6 @@ public interface RssItemService {
             "Upgrade-Insecure-Requests" + ": " + "1",
     })
     @GET("GetSubscribe")
-    Observable<HttpResult<List<RssSource>>> getRssSource(@Query("user_name") String username);
+    Observable<HttpResult<List<RssSource>>> getRssSource(@Query("user_name") String username,@Query("show_all") String showAll);
 
 }

@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 
 import com.example.daidaijie.rssreader.App;
 import com.example.daidaijie.rssreader.util.GsonUtil;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.mcsoxford.rss.RSSItem;
@@ -38,7 +37,7 @@ public class MFavModel {
         mEditor = mSharedPreferences.edit();
 
         String gsonRssItems = mSharedPreferences.getString(EXTRA_RSSITEM, "");
-        if (gsonRssItems.trim().isEmpty()) {
+        if (!gsonRssItems.trim().isEmpty()) {
             mRSSItems = GsonUtil.getDefault().fromJson(gsonRssItems, new TypeToken<List<RSSItem>>() {
             }.getType());
         } else {
@@ -56,4 +55,11 @@ public class MFavModel {
         mEditor.putString(EXTRA_RSSITEM, jsonString);
         mEditor.commit();
     }
+
+    public void save() {
+        String jsonString = GsonUtil.getDefault().toJson(mRSSItems);
+        mEditor.putString(EXTRA_RSSITEM, jsonString);
+        mEditor.commit();
+    }
+
 }

@@ -101,10 +101,18 @@ public class MainActivity extends BaseActivity {
             public void onLogin(TextInputLayout loginUser, TextInputLayout loginPass) {
                 mLoadingDialog.show();
 
-                String username = loginUser.getEditText().getText().toString();
-                String password = loginPass.getEditText().getText().toString();
+                final String username = loginUser.getEditText().getText().toString();
+                final String password = loginPass.getEditText().getText().toString();
                 Log.e(TAG, "onLogin: " + username);
                 Log.e(TAG, "onLogin: " + password);
+
+                if (username.isEmpty()) {
+                    SnackbarUtil.ShortSnackbar(mLogin, "用户名不能为空", SnackbarUtil.Warning).show();
+                    return;
+                } else if (password.isEmpty()) {
+                    SnackbarUtil.ShortSnackbar(mLogin, "密码不能为空", SnackbarUtil.Warning).show();
+                    return;
+                }
 
                 LoginService loginService = UserLogin.getInstance().mRetrofit.create(LoginService.class);
                 loginService.login(username, password)
@@ -114,6 +122,8 @@ public class MainActivity extends BaseActivity {
                             @Override
                             public void onCompleted() {
                                 mLoadingDialog.dismiss();
+                                UserModel.getInstance().setUsername(username);
+                                UserModel.getInstance().setPassword(password);
                             }
 
                             @Override
@@ -126,7 +136,7 @@ public class MainActivity extends BaseActivity {
                             public void onNext(Login login) {
 
                                 if (login.getCode() == 200) {
-                                    Intent intent = new Intent(MainActivity.this, RssListActivity.class);
+                                    Intent intent = new Intent(MainActivity.this, MyRssListActivity.class);
                                     startActivity(intent);
                                 } else {
                                     SnackbarUtil.LongSnackbar(

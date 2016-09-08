@@ -5,12 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import com.example.daidaijie.rssreader.model.MFavModel;
 import com.example.daidaijie.rssreader.model.RssModel;
+import com.example.daidaijie.rssreader.util.SnackbarUtil;
 
 import org.mcsoxford.rss.RSSItem;
 
@@ -42,6 +47,8 @@ public class RssDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setSupportActionBar(mToolbar);
 
         mRSSItem = RssModel.getInstance().mRSSItems.get(getIntent().getIntExtra(EXTRA_RSS_ITEM_POSITION, 0));
 
@@ -78,5 +85,25 @@ public class RssDetailActivity extends BaseActivity {
         Intent intent = new Intent(context, RssDetailActivity.class);
         intent.putExtra(EXTRA_RSS_ITEM_POSITION, position);
         return intent;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.ment_rss, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if (id == R.id.action_fav) {
+            MFavModel.getInstance().getRSSItems().add(mRSSItem);
+            MFavModel.getInstance().save();
+            SnackbarUtil.ShortSnackbar(mTitleTextView, "收藏成功", SnackbarUtil.Confirm).show();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

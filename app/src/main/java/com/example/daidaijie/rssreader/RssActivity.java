@@ -1,8 +1,9 @@
 package com.example.daidaijie.rssreader;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -12,12 +13,10 @@ import com.example.daidaijie.rssreader.adapter.RssAdapter;
 import com.example.daidaijie.rssreader.model.RssModel;
 
 import org.mcsoxford.rss.RSSFeed;
-import org.mcsoxford.rss.RSSItem;
 import org.mcsoxford.rss.RSSReader;
 import org.mcsoxford.rss.RSSReaderException;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -28,7 +27,8 @@ public class RssActivity extends BaseActivity {
 
     public static final String TAG = "RssActivity";
 
-    String uri = "http://rss.sina.com.cn/news/world/focus15.xml";
+    private static final String EXTRA_URL = "RssActivity.URL";
+
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.rssItemRecyclerView)
@@ -36,6 +36,7 @@ public class RssActivity extends BaseActivity {
     @BindView(R.id.rssRefreshLayout)
     SwipeRefreshLayout mRssRefreshLayout;
 
+    String uri = "";
     RssAdapter mRssAdapter;
 
     RSSFeed mRSSFeed;
@@ -43,6 +44,8 @@ public class RssActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        uri = getIntent().getStringExtra(EXTRA_URL);
 
         mRssAdapter = new RssAdapter(this, null);
         mRssItemRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -106,6 +109,12 @@ public class RssActivity extends BaseActivity {
                         }
                     }
                 });
+    }
+
+    public static Intent getIntent(Context context, String url) {
+        Intent intent = new Intent(context, RssActivity.class);
+        intent.putExtra(EXTRA_URL, url);
+        return intent;
     }
 
 }
