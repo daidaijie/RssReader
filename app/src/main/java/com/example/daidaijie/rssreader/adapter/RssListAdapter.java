@@ -32,6 +32,20 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.ViewHold
         mRssSources = RSSItems;
     }
 
+    public interface OnItemClickListner {
+        void onClick(int position);
+    }
+
+    OnItemClickListner mOnItemClickListner;
+
+    public OnItemClickListner getOnItemClickListner() {
+        return mOnItemClickListner;
+    }
+
+    public void setOnItemClickListner(OnItemClickListner onItemClickListner) {
+        mOnItemClickListner = onItemClickListner;
+    }
+
     public List<RssSource> getRssSources() {
         return mRssSources;
     }
@@ -49,7 +63,7 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         RssSource rssSource = mRssSources.get(position);
         holder.mRssTitleTextView.setText(rssSource.getType_name());
 
@@ -58,6 +72,14 @@ public class RssListAdapter extends RecyclerView.Adapter<RssListAdapter.ViewHold
         }else{
             holder.mRssButton.setText("订阅");
         }
+
+        holder.mRssButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnItemClickListner.onClick(position);
+            }
+        });
+
     }
 
     @Override

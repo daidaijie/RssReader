@@ -70,6 +70,7 @@ public class MyRssListActivity extends BaseActivity {
                 getRssList();
             }
         });
+
     }
 
     private void getRssList() {
@@ -134,5 +135,15 @@ public class MyRssListActivity extends BaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 200 && resultCode == 200) {
+            mRssRefreshLayout.setRefreshing(true);
+            getRssList();
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
