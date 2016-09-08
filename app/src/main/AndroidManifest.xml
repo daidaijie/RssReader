@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -22,6 +23,10 @@
         <activity android:name=".BaseActivity">
         </activity>
         <activity android:name=".RssDetailActivity">
+        </activity>
+        <activity android:name=".RssListActivity">
+        </activity>
+        <activity android:name=".MFavActivity">
         </activity>
     </application>
 

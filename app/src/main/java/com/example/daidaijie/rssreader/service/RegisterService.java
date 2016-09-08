@@ -1,6 +1,6 @@
 package com.example.daidaijie.rssreader.service;
 
-import com.example.daidaijie.rssreader.bean.Login;
+import com.example.daidaijie.rssreader.bean.Register;
 
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -8,9 +8,9 @@ import retrofit2.http.Query;
 import rx.Observable;
 
 /**
- * Created by daidaijie on 2016/9/7.
+ * Created by daidaijie on 2016/9/8.
  */
-public interface LoginService {
+public interface RegisterService {
 
     @Headers({
             "Accept" + ": " + "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8   ",
@@ -22,6 +22,8 @@ public interface LoginService {
             "Host" + ": " + "172.22.82.218:8080",
             "Upgrade-Insecure-Requests" + ": " + "1",
     })
-    @GET("Login")
-    Observable<Login> login(@Query("user_name") String username, @Query("password") String password);
+    @GET("Register")
+    Observable<Register> register(@Query("user_name") String username, @Query("password") String password);
+
+
 }
